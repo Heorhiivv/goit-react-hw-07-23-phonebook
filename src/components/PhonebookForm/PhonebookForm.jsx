@@ -1,18 +1,20 @@
 import React, { useState } from 'react';
-import { addContact } from '../../redux/contactsSlice';
+import { addContact } from '../../redux/operations';
 import { useDispatch } from 'react-redux';
 
 export const PhonebookForm = () => {
   const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
+  const [phone, setPhone] = useState('');
 
   const dispatch = useDispatch();
 
   const onNameFormSubmit = e => {
     e.preventDefault();
-    dispatch(addContact(name, number));
+    const credentials = { name, phone };
+    dispatch(addContact(credentials));
     reset();
   };
+
   const onInputChange = e => {
     const { name, value } = e.currentTarget;
 
@@ -21,7 +23,7 @@ export const PhonebookForm = () => {
         setName(value);
         break;
       case 'number':
-        setNumber(value);
+        setPhone(value);
         break;
 
       default:
@@ -31,7 +33,7 @@ export const PhonebookForm = () => {
 
   const reset = () => {
     setName('');
-    setNumber('');
+    setPhone('');
   };
 
   return (
@@ -57,7 +59,7 @@ export const PhonebookForm = () => {
             pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
             title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
             required
-            value={number}
+            value={phone}
             onChange={onInputChange}
           />
         </label>
